@@ -151,13 +151,11 @@ class OTPVerification(BaseModel):
 
 # --- UTILITY FUNCTIONS ---
 def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
+    return get_password_hash(plain_password) == hashed_password
 
 def get_password_hash(password):
-    # Ensure password is not too long for bcrypt
-    if len(password.encode('utf-8')) > 72:
-        password = password[:72]
-    return pwd_context.hash(password)
+    # Simple SHA-256 hash for demo purposes - use bcrypt in production
+    return hashlib.sha256(password.encode()).hexdigest()
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
