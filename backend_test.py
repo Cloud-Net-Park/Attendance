@@ -330,9 +330,9 @@ def test_qr_scan_and_otp():
     if 'student' not in tokens or 'qr_session_id' not in test_data:
         return log_test("QR scan", False, "Missing student token or QR session")
     
-    # Step 1: Scan QR code
-    scan_data = {"qr_session_id": test_data['qr_session_id']}
-    response = make_request("POST", "/attendance/scan", scan_data, token=tokens['student'])
+    # Step 1: Scan QR code - this endpoint expects query parameter
+    response = make_request("POST", f"/attendance/scan?qr_session_id={test_data['qr_session_id']}", 
+                          token=tokens['student'])
     
     if response and response.status_code == 200:
         data = response.json()
