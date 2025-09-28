@@ -99,8 +99,8 @@ def test_department_creation():
         return log_test("Department creation", False, "No superadmin token")
     
     dept_name = f"Computer Science {uuid.uuid4().hex[:6]}"
-    response = make_request("POST", "/departments", 
-                          {"name": dept_name}, 
+    # Department endpoint expects query parameter, not JSON body
+    response = make_request("POST", f"/departments?name={dept_name}", 
                           token=tokens['superadmin'])
     
     if response and response.status_code == 200:
