@@ -219,6 +219,11 @@ def require_role(allowed_roles: List[str]):
         return current_user
     return role_checker
 
+# --- ROOT ENDPOINT ---
+@api_router.get("/")
+async def root():
+    return {"message": "QR Attendance System API", "status": "running"}
+
 # --- AUTH ENDPOINTS ---
 @api_router.post("/auth/register", response_model=User)
 async def register_user(user_data: UserCreate, current_user: User = Depends(require_role([UserRole.SUPERADMIN, UserRole.SUBADMIN]))):
