@@ -172,8 +172,8 @@ def test_class_creation():
         return log_test("Class creation", False, "Missing subadmin token or department")
     
     class_name = f"CS-101-{uuid.uuid4().hex[:4]}"
-    response = make_request("POST", "/classes", 
-                          {"name": class_name, "department_id": test_data['department_id']}, 
+    # Class endpoint also expects query parameters
+    response = make_request("POST", f"/classes?name={class_name}&department_id={test_data['department_id']}", 
                           token=tokens['subadmin'])
     
     if response and response.status_code == 200:
