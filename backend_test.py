@@ -250,7 +250,8 @@ def test_student_registration():
         "email": f"student{uuid.uuid4().hex[:6]}@school.com",
         "username": "Test Student",
         "roll_no": f"CS{uuid.uuid4().hex[:6].upper()}",
-        "password": "dummy"  # Not used for students
+        "password": "dummy",  # Not used for students
+        "role": "student"  # Required field
     }
     
     response = make_request("POST", "/students", student_data, token=tokens['teacher'])
