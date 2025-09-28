@@ -371,7 +371,12 @@ async def scan_qr_code(qr_session_id: str, background_tasks: BackgroundTasks, cu
         raise HTTPException(status_code=404, detail="Invalid QR code")
     
     qr_session_obj = QRSession(**qr_session)
-    if datetime.now(timezone.utc) > qr_session_obj.expires_at:
+    # Ensure expires_at is timezone-aware
+    expires_at = qr_session_obj.expires_at
+    if expires_at.tzinfo is None:
+        expires_at = expires_at.replace(tzinfo=timezone.utc)
+    
+    if datetime.now(timezone.utc) > expires_at:
         raise HTTPException(status_code=400, detail="QR code has expired")
     
     # Check if student belongs to this class
