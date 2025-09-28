@@ -288,6 +288,9 @@ def test_student_login():
 
 def test_get_students():
     """Test getting students list"""
+    if 'teacher' not in tokens:
+        return log_test("Get students", False, "No teacher token available")
+        
     response = make_request("GET", "/students", token=tokens['teacher'])
     
     if response and response.status_code == 200:
