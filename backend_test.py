@@ -305,12 +305,9 @@ def test_qr_code_generation():
     if 'teacher' not in tokens or 'class_id' not in test_data:
         return log_test("QR generation", False, "Missing teacher token or class")
     
-    qr_data = {
-        "class_id": test_data['class_id'],
-        "subject": "Mathematics"
-    }
-    
-    response = make_request("POST", "/qr/generate", qr_data, token=tokens['teacher'])
+    # QR generation endpoint expects query parameters
+    response = make_request("POST", f"/qr/generate?class_id={test_data['class_id']}&subject=Mathematics", 
+                          token=tokens['teacher'])
     
     if response and response.status_code == 200:
         data = response.json()
